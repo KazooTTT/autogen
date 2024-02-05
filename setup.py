@@ -1,18 +1,37 @@
-import os
+"""
+setuptools这是一个官方的python打包工具，用于打包python项目,然后发布到PyPI上
+如果要用setuptools或者build来打包的话，都需要提供一个pyproject.toml文件，不要去直接修改setup.py，而是通过pyproject.toml来配置，去动态地生成它
+"""
 
+import os
 import setuptools
 
 here = os.path.abspath(os.path.dirname(__file__))
+"""
+__file__: 当前文件的路径
+os.path.dirname(__file__): 当前文件的目录的路径（也就是不包括文件名的路径）
+os.path.abspath(os.path.dirname(__file__))：当前文件的目录的绝对路径
+"""
 
 with open("README.md", "r", encoding="UTF-8") as fh:
+    """
+    fh是file handle的缩写，表示文件句柄
+    从README.md中读取所有的内容，然后赋值给long_description
+    """
     long_description = fh.read()
 
 # Get the code version
 version = {}
 with open(os.path.join(here, "autogen/version.py")) as fp:
+    """
+    打开autogen/version.py,执行version.py,把里面的所有变量都保存在version中
+    """
     exec(fp.read(), version)
+
+# 从version.py中读取__version__的值
 __version__ = version["__version__"]
 
+# 定义需要安装的依赖
 install_requires = [
     "openai>=1.3",
     "diskcache",
